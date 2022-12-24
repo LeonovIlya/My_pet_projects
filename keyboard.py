@@ -24,8 +24,9 @@ start_menu_super = ReplyKeyboardMarkup(keyboard=[
 
 # стартовое меню для админов
 start_menu_admin = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text='Планограммы'), KeyboardButton(text='Погода'),
-     KeyboardButton(text='Управление пользователями')]],
+    [KeyboardButton(text='Планограммы'), KeyboardButton(text='Управление планограммами')],
+    [KeyboardButton(text='ДМП'), KeyboardButton(text='Погода')],
+    [KeyboardButton(text='Управление юзерами')]],
     resize_keyboard=True,
     one_time_keyboard=True,
     input_field_placeholder='Выберите команду из меню')
@@ -39,19 +40,13 @@ send_location = ReplyKeyboardMarkup(keyboard=[
 
 # кнопки управления мерчами
 manage_merch = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text='Поиск по ФИО'), KeyboardButton(text='Список моих мерчей')],
-    [KeyboardButton(text='Назад')]],
+    [KeyboardButton(text='Добавить мерча'), KeyboardButton(text='Удалить мерча'),
+     KeyboardButton(text='Редактировать мерча')],
+    [KeyboardButton(text='Поиск по ФИО'), KeyboardButton(text='Список моих мерчей'), KeyboardButton(text='Назад')]],
     resize_keyboard=True,
     one_time_keyboard=True,
     input_field_placeholder='Выберите команду из меню')
 
-# кнопки управления мерчами
-manage_merch_next = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text='Добавить мерча'), KeyboardButton(text='Удалить мерча'),
-     KeyboardButton(text='Редактировать мерча')], [KeyboardButton(text='Назад')]],
-    resize_keyboard=True,
-    one_time_keyboard=True,
-    input_field_placeholder='Выберите команду из меню')
 
 # кнопки поиска дмп
 dmp = ReplyKeyboardMarkup(keyboard=[
@@ -60,9 +55,27 @@ dmp = ReplyKeyboardMarkup(keyboard=[
     one_time_keyboard=True,
     input_field_placeholder='Выберите команду из меню')
 
-# редактирование юзера
+# кнопки управления юзеров
+manage_user = ReplyKeyboardMarkup(keyboard=[
+    [KeyboardButton(text='Добавить юзера'), KeyboardButton(text='Удалить юзера'),
+     KeyboardButton(text='Редактировать юзера')],
+    [KeyboardButton(text='Поиск по ФИО'), KeyboardButton(text='Список всех юзеров'), KeyboardButton(text='Назад')]],
+    resize_keyboard=True,
+    one_time_keyboard=True,
+    input_field_placeholder='Выберите команду из меню')
+
+# редактирование мерча из-под супервайзера
 edit_user = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Изменить ФИО'), KeyboardButton(text='Изменить пароль')],
+    [KeyboardButton(text='Назад')]],
+    resize_keyboard=True,
+    one_time_keyboard=True,
+    input_field_placeholder='Выберите команду из меню')
+
+# редактирование юзера из-под админа
+admin_edit_user = ReplyKeyboardMarkup(keyboard=[
+    [KeyboardButton(text='Изменить ФИО'), KeyboardButton(text='Изменить пароль')],
+    [KeyboardButton(text='Изменить уровень доступа'), KeyboardButton(text='Изменить супервайзера')],
     [KeyboardButton(text='Назад')]],
     resize_keyboard=True,
     one_time_keyboard=True,

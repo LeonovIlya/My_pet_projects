@@ -4,7 +4,7 @@ from aiogram.dispatcher import FSMContext
 import keyboard
 from states import UserState
 from dmp.dmp import get_sheets_name, get_sheet_by_name, get_sheet_by_number
-from auth.hadler import check_auth
+from auth.handler import check_auth
 
 
 # получаем клавиатуру с выбором действий

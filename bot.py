@@ -4,14 +4,13 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-
 import config
-from auth.hadler import register_handlers_auth
-from weather.handler import register_handlers_weather
+from admin_manager.handler import register_handlers_manage_users
+from auth.handler import register_handlers_auth
 from dmp.handler import register_handlers_dmp
 from planogram.handler import register_handlers_planogram
 from sv_manager.handler import register_handlers_manage_merch
-
+from weather.handler import register_handlers_weather
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +33,7 @@ async def main():
     register_handlers_dmp(dp)
     register_handlers_planogram(dp)
     register_handlers_manage_merch(dp)
+    register_handlers_manage_users(dp)
 
     await dp.start_polling()
 

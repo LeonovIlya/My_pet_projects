@@ -6,7 +6,7 @@ class BotDB:
     def __init__(self, db_file):
         self._db_file = db_file
 
-    # получаем булевое значение по запросу
+    # получаем булево значение по запросу
     async def get_check(self, query, **kwargs):
         async with asq.connect(self._db_file) as connection:
             query += ' WHERE ' + ' AND '.join(['' + k + ' = ?' for k in kwargs.keys()])
@@ -33,7 +33,10 @@ class BotDB:
                 values = ''
             async with connection.execute(query, values) as cursor:
                 fetch = await cursor.fetchall()
-                result = [i[0] for i in fetch]
+                if int(len(fetch[0])) == 1:
+                    result = [i[0] for i in fetch]
+                elif int(len(fetch[0])) == 2:
+                    result = [(i[0], str(i[1])) for i in fetch]
                 return result
 
     # запрос на изменение данных в бд
@@ -43,4 +46,3 @@ class BotDB:
             await connection.execute(query, values)
             await connection.commit()
             logging.info(f'NEW SQL QUERY : {query, values}')
-
