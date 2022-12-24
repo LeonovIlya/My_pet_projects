@@ -1,3 +1,4 @@
+import hashlib
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 
@@ -42,7 +43,7 @@ async def help_message(message: types.Message):
 # обработка ввода пароля и проверка уровня доступа, если верный - записываем tg_id юзера в базу,
 # получаем его ФИО из базы, проверяем уровень доступа
 async def user_login(message: types.Message):
-    password = message.text
+    password = hashlib.sha512(message.text.encode('utf-8')).hexdigest()
     data = await BotDB.get_check(querylist.check_query, password=password)
     if data:
         await BotDB.record_to_db(querylist.set_tg_id, tg_id=message.from_user.id, password=password)

@@ -1,3 +1,4 @@
+import hashlib
 import logging
 
 from aiogram import Dispatcher, types
@@ -70,8 +71,9 @@ async def add_merch_set_name(message: types.Message, state: FSMContext):
 
 # получаем пароль, записываем данные в БД, проверяем на уникальность
 async def add_merch_set_password(message: types.Message, state: FSMContext):
+    password = hashlib.sha512(message.text.encode('utf-8')).hexdigest()
     try:
-        if await BotDB.get_check(querylist.check_query, password=message.text):
+        if await BotDB.get_check(querylist.check_query, password=password):
             await message.answer(text='Пароль не уникален!\n\nВведите еще раз или нажмите кнопку назад!',
                                  reply_markup=keyboard.back)
         else:
@@ -79,7 +81,7 @@ async def add_merch_set_password(message: types.Message, state: FSMContext):
                 data = await state.get_data()
                 supervisor_name = await BotDB.get_stuff(querylist.get_query, tg_id=message.from_user.id)
                 await BotDB.record_to_db(querylist.insert_user,
-                                         name=data['name'], password=message.text, access_level='1',
+                                         name=data['name'], password=password, access_level='1',
                                          supervisor_name=supervisor_name)
 
                 await message.answer(text=f'Новый мерчендайзер *{data["name"]}* добавлен!\n'

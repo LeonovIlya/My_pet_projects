@@ -1,3 +1,4 @@
+import hashlib
 import logging
 
 from aiogram import Dispatcher, types
@@ -112,15 +113,16 @@ async def add_user_supervisor_name(message: types.Message, state: FSMContext):
 
 # получаем и записываем пароль, формируем запрос к БД, получаем ответ, обрабатываем ошибку если запись не уникальна
 async def add_user_query(message: types.Message, state: FSMContext):
+    password = hashlib.sha512(message.text.encode('utf-8')).hexdigest()
     try:
-        if await BotDB.get_check(querylist.check_query, password=message.text):
+        if await BotDB.get_check(querylist.check_query, password=password):
             await message.answer(text='Пароль не уникален!\n\nВведите еще раз или нажмите кнопку назад!',
                                  reply_markup=keyboard.back)
         else:
             try:
                 data = await state.get_data()
                 await BotDB.record_to_db(querylist.insert_user,
-                                         name=data['name'], password=message.text,
+                                         name=data['name'], password=password,
                                          access_level=data['access_level'],
                                          supervisor_name=data['supervisor_name'])
                 await message.answer(text=f'Новый юзер *{data["name"]}* добавлен!\n'
@@ -222,13 +224,14 @@ async def edit_user_set_new_name(message: types.Message, state: FSMContext):
 
 # редактирование пароля, получаем новый, записываем в БД, проверяем на уникальность
 async def edit_user_set_new_password(message: types.Message, state: FSMContext):
+    password = hashlib.sha512(message.text.encode('utf-8')).hexdigest()
     try:
-        if await BotDB.get_check(querylist.check_query, password=message.text):
+        if await BotDB.get_check(querylist.check_query, password=password):
             await message.answer(text='Пароль не уникален!\n\nВведите еще раз или нажмите кнопку назад!',
                                  reply_markup=keyboard.back)
         else:
             data = await state.get_data()
-            await BotDB.record_to_db(querylist.edit_user_password, new_password=message.text, name=data['name'])
+            await BotDB.record_to_db(querylist.edit_user_password, password=password, name=data['name'])
             await message.answer(text=f'Пароль для *{data["name"]}* изменён на *{message.text}*!\n\n',
                                  parse_mode='Markdown', reply_markup=keyboard.back)
             await state.finish()
