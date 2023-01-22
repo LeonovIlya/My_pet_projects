@@ -1,4 +1,4 @@
-/config_local.py
+/.env
 /bot_log.log
 /dmp/google_auth.json
 /planogram/files/
