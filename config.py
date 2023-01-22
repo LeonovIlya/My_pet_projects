@@ -1,0 +1,4 @@
+TOKEN = ${{ TOKEN }}
+WEATHER_API = ${{ WEATHER_API }}
+GS_ID = ${{ GS_ID }}
+FILENAME_GS = ${{ FILENAME_GS }}
